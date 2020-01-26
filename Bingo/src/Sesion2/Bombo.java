@@ -1,16 +1,27 @@
-<<<<<<< HEAD
+
 package Sesion2;
+import java.util.Random;
 
 public class Bombo {
 	
+	// Representa el bombo de bolas
 	private boolean[] bolasUtilizadas;
-	private int[] bombo;
+	// Numero de bolas que tiene el bombo
+	private int bombo;
 	
-	public Bombo(int[] bolas) {
+	public Bombo(int bolas) {
+		// Indiquem el numero de boles del bombo
 		this.bombo = bolas;
+		
+		// Inicialitzem el bombo de boles amb totes les boles a TRUE
+		this.bolasUtilizadas = new boolean[bolas];
+		for(int i = 0; i < this.bolasUtilizadas.length; i++) {
+			this.bolasUtilizadas[i] = true;
+		}
 	}
 
 	public boolean[] getBolasUtilizadas() {
+		// devuelve el numero de bolas usadas
 		return bolasUtilizadas;
 	}
 
@@ -18,40 +29,71 @@ public class Bombo {
 		this.bolasUtilizadas = bolasUtilizadas;
 	}
 
-	public int[] getBombo() {
-		return bombo;
-	}
 
-	public void setBombo(int[] bombo) {
+	public void setBombo(int bombo) {
+		// establece el numero de bolas del bombo
+		// ?? no se usa ya el constructor para establecer el numero de bolas del bombo??
 		this.bombo = bombo;
 	}	
-}
-=======
-package Sesion2;
-
-public class Bombo {
 	
-	private boolean[] bolasUtilizadas;
-	private int[] bombo;
+	public int extraerBola() {
+		// Genera un numero aleatorio que sera la bola extraida
+		// Valida que la bola no haya sido extraida
+		boolean bolaValida = false;
+		int number = 0;
+		
+		do {
+			Random rdm = new Random();
+			number = rdm.nextInt(this.bombo);
+			System.out.println("Extraemos la bola " + number + " del bombo");
+			if(this.bolasUtilizadas[number]) {
+				bolaValida = true;
+				this.bolasUtilizadas[number] = false;
+			}
+		}while(!bolaValida);
+			
+		return number;
+		
+	}
 	
-	public Bombo(int[] bolas) {
-		this.bombo = bolas;
+	public boolean comprobarBomboVacio() {
+		
+		boolean vacio = true;
+		for(int i = 0; i < this.bolasUtilizadas.length; i++) {
+			if(this.bolasUtilizadas[i] == true) {
+				System.out.println("Bombo NO vacio");
+				return false;
+			}
+		}	
+		System.out.println("Bombo vacio");
+		return true;
 	}
-
-	public boolean[] getBolasUtilizadas() {
-		return bolasUtilizadas;
+	
+	
+	public void mostrarBolasUsadas() {
+		System.out.println("Bolas usadas: ");
+		for(int i = 0; i < this.bolasUtilizadas.length; i++) {
+			if(!this.bolasUtilizadas[i]){
+				System.out.println(i + ", ");
+			}
+		}
 	}
-
-	public void setBolasUtilizadas(boolean[] bolasUtilizadas) {
-		this.bolasUtilizadas = bolasUtilizadas;
+	
+	public void resetearBombo() {
+		for(int i = 0; i < this.bolasUtilizadas.length; i++) {
+			this.bolasUtilizadas[i] = true;
+		}
 	}
-
-	public int[] getBombo() {
+	
+	public int getBolasBombo() {
+		// devuelve el numero de bolas del bombo
 		return bombo;
 	}
-
-	public void setBombo(int[] bombo) {
-		this.bombo = bombo;
-	}	
+	
+	
+	
+	
+	
+	
 }
->>>>>>> 26b129f836c884e75cf52c5283506872c268f67f
+

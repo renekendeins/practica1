@@ -1,23 +1,15 @@
-<<<<<<< HEAD
+
 package Sesion2;
 
 public class Bingo {
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-
+		Bombo bombo = new Bombo(50);
+		bombo.extraerBola();
+		bombo.comprobarBomboVacio();
+		bombo.mostrarBolasUsadas();
 	}
 
 }
-=======
-package Sesion2;
 
-public class Bingo {
-
-	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-
-	}
-
-}
->>>>>>> 26b129f836c884e75cf52c5283506872c268f67f
