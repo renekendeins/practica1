@@ -21,8 +21,8 @@ public class BingoMain {
 		numberPlayers = generatePlayers(method);
 		
 		do {
-			numberRows = generateRowsColumns(0, "fila");
-			numberColumns = generateRowsColumns(1, "columna");
+			numberRows = generateRowsColumns("fila");
+			numberColumns = generateRowsColumns("columna");
 			if (numberRows * numberColumns < 15 || numberRows * numberColumns > 25) {
 				System.out.println("El conjunto de lineas y columnas es incorrecto. El conjunto tiene que ser ente 15 y 25.");
 				System.out.println("----------------------------------------------");
@@ -132,7 +132,7 @@ public class BingoMain {
 		return  numberPlayers;
 	}
 	//Setting de filas y columnas  --NECESARIO--
-	private static int generateRowsColumns(int select, String type) {
+	private static int generateRowsColumns(String type) {
 		@SuppressWarnings("resource")
 		Scanner scanner = new Scanner(System.in);
 		

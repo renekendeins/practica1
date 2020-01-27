@@ -15,43 +15,34 @@ public class Bombo {
 		
 		// Inicialitzem el bombo de boles amb totes les boles a TRUE
 		this.bolasUtilizadas = new boolean[bolas];
-		for(int i = 0; i < this.bolasUtilizadas.length; i++) {
+		for(int i = 0; i < bolas; i++) {
 			this.bolasUtilizadas[i] = true;
 		}
 	}
 
-	public boolean[] getBolasUtilizadas() {
-		// devuelve el numero de bolas usadas
-		return bolasUtilizadas;
-	}
-
-	public void setBolasUtilizadas(boolean[] bolasUtilizadas) {
-		this.bolasUtilizadas = bolasUtilizadas;
-	}
-
-
-	public void setBombo(int bombo) {
-		// establece el numero de bolas del bombo
-		// ?? no se usa ya el constructor para establecer el numero de bolas del bombo??
-		this.bombo = bombo;
-	}	
+	/*
+	 * FOLLOW ME ON INSTAGRAM @gmarsi 
+	*/
 	
 	public int extraerBola() {
 		// Genera un numero aleatorio que sera la bola extraida
 		// Valida que la bola no haya sido extraida
 		boolean bolaValida = false;
 		int number = 0;
+		Random rdm = new Random();
 		
 		do {
-			Random rdm = new Random();
-			number = rdm.nextInt(this.bombo);
-			System.out.println("Extraemos la bola " + number + " del bombo");
+			number = rdm.nextInt(this.bolasUtilizadas.length);
+//			this.mostrarBolasUsadas();
 			if(this.bolasUtilizadas[number]) {
+				System.out.println("\n-----------");
+				System.out.println("Extraemos la bola " + number + " del bombo");
+				System.out.println("------------\n");
 				bolaValida = true;
 				this.bolasUtilizadas[number] = false;
+				this.bombo--;
 			}
 		}while(!bolaValida);
-			
 		return number;
 		
 	}
@@ -69,14 +60,18 @@ public class Bombo {
 		return true;
 	}
 	
-	
 	public void mostrarBolasUsadas() {
+		int numeroBolasUsadas = 0;
+		System.out.println("\n--------------");
 		System.out.println("Bolas usadas: ");
 		for(int i = 0; i < this.bolasUtilizadas.length; i++) {
 			if(!this.bolasUtilizadas[i]){
-				System.out.println(i + ", ");
+				numeroBolasUsadas++;
+				System.out.print(i + ", ");
 			}
 		}
+		System.out.println("Se han usado un total de " + numeroBolasUsadas + " bolas");
+		System.out.println("--------------\n");
 	}
 	
 	public void resetearBombo() {
@@ -89,11 +84,6 @@ public class Bombo {
 		// devuelve el numero de bolas del bombo
 		return bombo;
 	}
-	
-	
-	
-	
-	
 	
 }
 
