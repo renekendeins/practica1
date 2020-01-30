@@ -3,17 +3,20 @@ package Sesion2;
 import java.util.Random;
 
 public class Butlleta {
+	// Inicializamos los atributos de la clase
 	private int[][] carton;
 	private int[] contadorAciertosLinea;
 	private int aciertos;
-	private int idJugador;
+
 	
 	// Otros atributos
-	private boolean linea = false; // este carton tiene linea
+	private int idJugador; // Establecemos un id del jugador para identificarlo en caso que algun jugador marche a media partida
+	private boolean linea = false; // El carton tiene linea
 	@SuppressWarnings("unused")
-	private boolean bingo = false;
+	private boolean bingo = false; // El carton tiene bingo
 	
 	public Butlleta(int filas, int columnas, int bolas, int id) {
+		// Creamos el objeto Butlleta con los parametros del constructor
 		this.carton = new int[filas][columnas];
 		this.rellenarCarton(bolas);
 		this.contadorAciertosLinea = new int[columnas];
@@ -27,6 +30,7 @@ public class Butlleta {
 		int[] numerosGenerados = new int[bolas];
 		int numeroAleatorio;
 		int contadorGenerados = 0;
+		
 		// Establecemos los valores a -1 para poder introducir la bola con numero 0
 		for(int i = 0; i< bolas; i++) {
 			numerosGenerados[i] = -1;
@@ -36,19 +40,18 @@ public class Butlleta {
 		boolean add = true;
 
 		while(contadorGenerados < bolas) {
+			// Generamos el numero
 			numeroAleatorio = rdm.nextInt(bolas);
-
 			
+			// Comprobamos si el numero ya lo hemos generado
 			for(int i = 0; i<bolas; i++) {
 				if(numeroAleatorio == numerosGenerados[i]) {
 					add = false;
 					break;
-				}else {
-					add = true;
-					
-				}
+				}else { add = true; }
 			}
 			
+			// Buscamos la siguiente posicion sin rellenar e introducimos el numero
 			if(add) {
 				for(int i = 0; i<bolas; i++) {
 					if(numerosGenerados[i] == -1) {
@@ -57,13 +60,10 @@ public class Butlleta {
 						break;
 					}
 				}
-					
 			}
-	
-
 		}
 				
-		// Rellenamos el carton
+		// Rellenamos el carton con todos los numeros generados de forma aleatoria
 		int contador = 0;
 		for(int i = 0; i < this.carton[0].length; i++) {
 			for(int j = 0; j < this.carton.length; j++) {
@@ -71,31 +71,10 @@ public class Butlleta {
 				contador++;
 			}
 		}
-		
-//		PARA COMPROBAR QUE EL CARTON SE RELLENA CORRECTAMENTE
-
-		
-		
-//		PARA COMPROBAR QUE NO SE REPITEN AL GENERARLOS
-//		for(int i = 0; i<bolas; i++) {
-//			int ii = numerosGenerados[i];
-//			for(int j = 0; j<bolas; j++) {
-//				if(i != j) {
-//					if(ii == numerosGenerados[j]) {
-//						System.out.println("Duplicado");
-//						System.out.println(i + " - " + j);
-//					}else {
-//						System.out.println("No duplicado");
-//					}
-//				}
-//			}
-//		}
-		
-		
-
 	}
 
 	public void mostrarCarton() {
+		// Muestra el carton del jugador
 		System.out.println("Carton del jugador " + this.idJugador);
 		for(int i = 0; i < this.carton[0].length; i++) {
 			for(int j = 0; j < this.carton.length; j++) {
@@ -111,6 +90,7 @@ public class Butlleta {
 	}
 	
 	public void resetCarton() {
+		// Resetea los valores marcados en el carton
 		this.aciertos = 0;
 		for(int i = 0; i < this.carton[0].length; i++) {
 			for(int j = 0; j < this.carton.length; j++) {
@@ -122,7 +102,7 @@ public class Butlleta {
 	}
 	
 	public boolean marcarCarton(int numeroExtraido) {
-		
+		// Marca un numero del carton
 		for(int i = 0; i < this.carton[0].length; i++) {
 			for(int j = 0; j < this.carton.length; j++) {
 				if(this.carton[j][i] == numeroExtraido) {
@@ -138,11 +118,11 @@ public class Butlleta {
 				}
 			}
 		}
-		
 		return false;
 	}
 	
 	public boolean mostrarAciertosFilas() {
+		// Valida si el carton tiene linea valida o no
 		boolean linea = false;
 		for(int i = 0; i < this.carton[0].length; i++) {
 			// El numero de aciertos coincide con el numero de columnas
@@ -157,6 +137,7 @@ public class Butlleta {
 	}
 	
 	public boolean comprobarBingo() {
+		// Comprueba si hay bingo o no
 		if(this.aciertos == (this.carton.length * this.carton[0].length)) {
 			this.bingo = true;
 			return true;
@@ -165,10 +146,12 @@ public class Butlleta {
 	}
 	
 	public int getAciertos() {
+		// Devuelve el numero de aciertos
 		return this.aciertos;
 	}
 	
 	public int getIdJugador() {
+		// Devuelve el ID del jugador
 		return this.idJugador;
 	}
 }
