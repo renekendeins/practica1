@@ -6,14 +6,18 @@ public class Butlleta {
 	private int[][] carton;
 	private int[] contadorAciertosLinea;
 	private int aciertos;
+	private int idJugador;
 	
 	// Otros atributos
-	private boolean linea = false;
+	private boolean linea = false; // este carton tiene linea
+	@SuppressWarnings("unused")
+	private boolean bingo = false;
 	
-	public Butlleta(int filas, int columnas, int bolas) {
+	public Butlleta(int filas, int columnas, int bolas, int id) {
 		this.carton = new int[filas][columnas];
 		this.rellenarCarton(bolas);
 		this.contadorAciertosLinea = new int[columnas];
+		this.idJugador = id;
 		
 	}
 	
@@ -92,12 +96,29 @@ public class Butlleta {
 	}
 
 	public void mostrarCarton() {
+		System.out.println("Carton del jugador " + this.idJugador);
 		for(int i = 0; i < this.carton[0].length; i++) {
 			for(int j = 0; j < this.carton.length; j++) {
-				System.out.print(this.carton[j][i] + " ");
+				if(this.carton[j][i] < 10) {
+					System.out.print("| 0" + this.carton[j][i] + " | ");
+				}else {
+					System.out.print("| " + this.carton[j][i] + " | ");
+				}
+				
 			}
 			System.out.println("");
 		}
+	}
+	
+	public void resetCarton() {
+		this.aciertos = 0;
+		for(int i = 0; i < this.carton[0].length; i++) {
+			for(int j = 0; j < this.carton.length; j++) {
+				this.carton[j][i] = Math.abs(this.carton[j][i]);
+			}
+			contadorAciertosLinea[i] = 0;
+		}
+		
 	}
 	
 	public boolean marcarCarton(int numeroExtraido) {
@@ -108,13 +129,11 @@ public class Butlleta {
 					// MARCAR CON -1 LOS ACIERTOS
 					this.carton[j][i] = this.carton[j][i] * -1;
 					/* 
-					 Y TAMBIEN CONTAR LOS ACIERTOS POR FILA?? UN POCO REDUNDANTE, NO?
-					 YO QUITARIA ESTE ULTIMO ATRIBUTO Y MIRARIA SI UNA FILA TIENE 
-					 TODOS LOS VALORES EN NEGATIVO 
+					 Y TAMBIEN CONTAR LOS ACIERTOS POR FILA??
+					 YO QUITARIA ESTE ULTIMO ATRIBUTO Y MIRARIA SI UNA FILA TIENE TODOS LOS VALORES EN NEGATIVO 
 					*/
 					contadorAciertosLinea[i]++;
 					aciertos++;
-//					System.out.println("La bola " + numeroExtraido + " coincide en la fila " + i + "\n");
 					return true;
 				}
 			}
@@ -129,8 +148,6 @@ public class Butlleta {
 			// El numero de aciertos coincide con el numero de columnas
 			if(!this.linea) {
 				if(contadorAciertosLinea[i] == this.carton.length) {
-					System.out.println("\n---> " + contadorAciertosLinea[i] + " <-> " + this.carton.length);
-					System.out.println("Hay fila en la fila " + i + "\n");
 					linea = true;
 					this.linea = true;
 				}
@@ -140,13 +157,19 @@ public class Butlleta {
 	}
 	
 	public boolean comprobarBingo() {
-//		System.out.println("Numero de aciertos: " + this.aciertos);
 		if(this.aciertos == (this.carton.length * this.carton[0].length)) {
-			System.out.println("Hay bingo");
+			this.bingo = true;
 			return true;
 		}
 		return false;
 	}
 	
+	public int getAciertos() {
+		return this.aciertos;
+	}
+	
+	public int getIdJugador() {
+		return this.idJugador;
+	}
 }
 
