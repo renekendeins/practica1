@@ -7,6 +7,9 @@ public class Butlleta {
 	private int[] contadorAciertosLinea;
 	private int aciertos;
 	
+	// Otros atributos
+	private boolean linea = false;
+	
 	public Butlleta(int filas, int columnas, int bolas) {
 		this.carton = new int[filas][columnas];
 		this.rellenarCarton(bolas);
@@ -55,10 +58,7 @@ public class Butlleta {
 	
 
 		}
-		
-//		this.carton[0].length == filas
-//		this.carton.length == columnas
-		
+				
 		// Rellenamos el carton
 		int contador = 0;
 		for(int i = 0; i < this.carton[0].length; i++) {
@@ -114,7 +114,7 @@ public class Butlleta {
 					*/
 					contadorAciertosLinea[i]++;
 					aciertos++;
-					System.out.println("La bola " + numeroExtraido + " coincide en la fila " + i + "\n");
+//					System.out.println("La bola " + numeroExtraido + " coincide en la fila " + i + "\n");
 					return true;
 				}
 			}
@@ -123,21 +123,24 @@ public class Butlleta {
 		return false;
 	}
 	
-	public void mostrarAciertosFilas() {
-		int contadorAciertosFila = 0;
+	public boolean mostrarAciertosFilas() {
+		boolean linea = false;
 		for(int i = 0; i < this.carton[0].length; i++) {
 			// El numero de aciertos coincide con el numero de columnas
-			if(contadorAciertosLinea[i] == this.carton.length) {
-				System.out.println("\n---> " + contadorAciertosLinea[i] + " <-> " + this.carton.length);
-				System.out.println("Hay fila en la fila " + i + "\n");
-			}else {
-				System.out.println("No hay fila en la fila " + i);
+			if(!this.linea) {
+				if(contadorAciertosLinea[i] == this.carton.length) {
+					System.out.println("\n---> " + contadorAciertosLinea[i] + " <-> " + this.carton.length);
+					System.out.println("Hay fila en la fila " + i + "\n");
+					linea = true;
+					this.linea = true;
+				}
 			}
 		}
+		return linea;
 	}
 	
 	public boolean comprobarBingo() {
-		System.out.println("Numero de aciertos: " + this.aciertos);
+//		System.out.println("Numero de aciertos: " + this.aciertos);
 		if(this.aciertos == (this.carton.length * this.carton[0].length)) {
 			System.out.println("Hay bingo");
 			return true;

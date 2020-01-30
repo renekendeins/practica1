@@ -8,7 +8,8 @@ public class Bingo {
 		Scanner scanner = new Scanner(System.in);
 		int bolas = 0, filas = 0, columnas = 0;
 		int numeroJugadores = 0;
-		boolean finPartida = false, bingo = false, linea = false;
+		boolean finPartida = false, bingo = false, linea = false, lineaAux = false;
+		boolean[] marcadorLineas =  null;
 
 		Bombo bombo;
 		
@@ -18,10 +19,10 @@ public class Bingo {
 			Butlleta[] cartones = null;
 			
 			
-			while(bolas < 70 || bolas > 90) {
+			while(bolas < 14 || bolas > 90) {
 				System.out.println("Introduce el numero de bolas. Minimo 70 maximo 90");
 //				bolas = scanner.nextInt();
-				bolas = 80;
+				bolas = 15;
 			}
 			
 			do {
@@ -37,10 +38,12 @@ public class Bingo {
 			while(numeroJugadores <= 0 || numeroJugadores > 10) {
 				System.out.println("Introduce el numero de jugadores. Minimo 2 y maximo 10");
 //				numeroJugadores = scanner.nextInt();
-				numeroJugadores = 5;
+				numeroJugadores = 10;
 				cartones = new Butlleta[numeroJugadores];
 				
 				if(numeroJugadores > 0 && numeroJugadores <= 10) {
+					// Establecemos los arrays segun el numero de jugadores
+					marcadorLineas = new boolean[numeroJugadores];
 					System.out.println("----CARTONES GENERADOS -----\n");
 					for(int i = 0; i < numeroJugadores; i++) {
 						cartones[i] = new Butlleta(columnas, filas, bolas);
@@ -59,26 +62,53 @@ public class Bingo {
 			
 			
 			bombo = new Bombo(bolas);
+			int contadorBolasSacadas = 0;
+			int contadorAuxiliar = 0;
+			int contadorLineasTemporal = 0;
+
 			while(!bingo) {
-				System.out.println("Seguimos extraiendo bolas");
+				contadorBolasSacadas++;
+//				System.out.println("Seguimos extraiendo bolas");
 				numeroExtraido = bombo.extraerBola();
-				System.out.println("Bola afortunada: " + numeroExtraido);
+//				System.out.println("Bola afortunada: " + numeroExtraido);
 				for(int i = 0; i < numeroJugadores; i++) {
+					contadorAuxiliar = contadorBolasSacadas;
+					
 					
 					System.out.println("Jugador " + (i+1) +":");
 					cartones[i].marcarCarton(numeroExtraido);
-					cartones[i].mostrarAciertosFilas();
+					linea = cartones[i].mostrarAciertosFilas();
+					
+					if(linea && !marcadorLineas[i]) {
+						marcadorLineas[i] = true;
+						lineaAux = true;
+						contadorLineasTemporal++;
+						System.out.println("!!!!LINEA!!!!");
+					}
+
 					
 					
 					if(cartones[i].comprobarBingo()) {
 						bingo = true;
 						System.out.println("BINGO!!!!!!!!");
-						break;
+						i = numeroJugadores; //NO SE PUEDE USAR BREAK...
 						
 					}
 				}
+				
+				// Si ha salido linea en una ronda marcamos todas a true para que no puedan
+				// volver a salir
+				if(lineaAux) {
+					for(int i = 0; i < numeroJugadores; i++) {
+						marcadorLineas[i] = true;
+					}
+				}
+				
+				
+				
 			}
 			System.out.println("Quieres seguir jugando? [S/N]");
+			System.out.println(contadorLineasTemporal);
 			String continuar = scanner.next();
 			if(continuar.equalsIgnoreCase("N")) {
 				finPartida = true;
